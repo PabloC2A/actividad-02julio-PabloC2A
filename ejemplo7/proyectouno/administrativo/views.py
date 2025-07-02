@@ -66,6 +66,17 @@ def editar_matricula(request, id):
 
 
 ## vista que permita crear estudiantes y modulos
+def detalle_estudiante(request, id):
+    estudiante = Estudiante.objects.get(pk=id)
+    matriculas = Matricula.objects.filter(estudiante=estudiante)
+    costo_total = sum(m.costo for m in matriculas)
+    informacion_template = {
+        'e': estudiante,
+        'costo_total': costo_total,
+        'matriculas': matriculas
+    }
+    return render(request, 'detalle_estudiante.html', informacion_template)
+
 
 def crear_estudiante(request):
     if request.method == 'POST':
@@ -84,16 +95,18 @@ def crear_estudiante(request):
     return render(request, 'crear_estudiante.html', contexto)
 
 
-def detalle_estudiante(request, id):
-    estudiante = Estudiante.objects.get(pk=id)
-    matriculas = Matricula.objects.filter(estudiante=estudiante)
-    costo_total = sum(m.costo for m in matriculas)
-    informacion_template = {
-        'e': estudiante,
-        'costo_total': costo_total,
-        'matriculas': matriculas
-    }
-    return render(request, 'detalle_estudiante.html', informacion_template)
+def ver_modulos(request):
+    modulos = Modulo.objects.all()
+    modulos_info = []
+
+    for modulo in modulos:
+        valor_total = sum(m.costo for m in Matricula.objects.filter(modulo=modulo))
+        modulos_info.append({
+            'modulo': modulo,
+            'valor_total': valor_total
+        })
+
+    return render(request, 'ver_modulos.html', {'modulos_info': modulos_info})
 
 
 def crear_modulo(request):
@@ -111,20 +124,6 @@ def crear_modulo(request):
     }
 
     return render(request, 'crear_modulo.html', contexto)
-
-
-def ver_modulos(request):
-    modulos = Modulo.objects.all()
-    modulos_info = []
-
-    for modulo in modulos:
-        valor_total = sum(m.costo for m in Matricula.objects.filter(modulo=modulo))
-        modulos_info.append({
-            'modulo': modulo,
-            'valor_total': valor_total
-        })
-
-    return render(request, 'ver_modulos.html', {'modulos_info': modulos_info})
 
 # ver los módulos
 #    nombre del módulp
