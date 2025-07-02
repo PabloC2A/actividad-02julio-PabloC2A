@@ -65,8 +65,6 @@ def editar_matricula(request, id):
 ## vista que permita crear estudiantes y modulos
 
 def crear_estudiante(request):
-    """
-    """
     if request.method == 'POST':
         formulario = EstudianteForm(request.POST)
         print(formulario.errors)
@@ -75,9 +73,12 @@ def crear_estudiante(request):
             return redirect(index)
     else:
         formulario = EstudianteForm()
-    diccionario = {'formulario': formulario}
+    contexto = {
+        'formulario': formulario,
+        'mititulo': 'Crear Estudiante'
+    }
 
-    return render(request, 'crear_estudiante.html', diccionario)
+    return render(request, 'crear_estudiante.html', contexto)
 
 
 def detalle_estudiante(request, id):
