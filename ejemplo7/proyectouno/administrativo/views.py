@@ -2,18 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render
-
-# importar las clases de models.py
 from administrativo.models import Matricula, Estudiante, Modulo
 from administrativo.forms import MatriculaForm, MatriculaEditForm, ModuloForm, EstudianteForm
 
 
-# vista que permita presesentar las matriculas
-# el nombre de la vista es index.
-
 def index(request):
-    """
-    """
     matriculas = Matricula.objects.all()
 
     titulo = "Listado de matriculas"
@@ -46,8 +39,6 @@ def crear_matricula(request):
 
 
 def editar_matricula(request, id):
-    """
-    """
     matricula = Matricula.objects.get(pk=id)
     print("----------matricula")
     print(matricula)
@@ -65,7 +56,6 @@ def editar_matricula(request, id):
     return render(request, 'crear_matricula.html', diccionario)
 
 
-## vista que permita crear estudiantes y modulos
 def detalle_estudiante(request, id):
     estudiante = Estudiante.objects.get(pk=id)
     matriculas = Matricula.objects.filter(estudiante=estudiante)
