@@ -1,40 +1,44 @@
 {% extends "master.html" %}
 
 {% block title %}
-  Listado de Estudiantes
+Listado de Estudiantes
 {% endblock %}
 
 {% block content %}
-<h1>{{mititulo}}</h1>
-<hr>
-<h3>Número de Matriculas {{ numero_matriculas }}</h3>
-<table border="1px">
-  <tr>
-    <th><b>Estudiante</b></th>
-    <th><b>Módulo</b></th>
-    <th><b>Comentario</b></th>
-    <th><b>Opciones</b></th>
-  </tr>
-  {% for e in matriculas %}
-  <tr>
-    <td>
-      {{e.estudiante.nombre}} <br>
-      {{e.estudiante.get_tipo_estudiante_display }}
-      [<a href="{% url 'detalle_estudiante' e.estudiante.id %}">+</a>]
-    </td>
-    <td>
-      {{e.modulo.nombre}}
-    </td>
-    <td>
-      {{e.comentario}}
-    </td>
-    <td>
-      [<a href="{% url 'detalle_matricula' e.id %}">ver</a>]
-      [<a href="{% url 'editar_matricula' e.id %}">editar</a>]
-    </td>
-  </tr>
-  {% endfor %}
+<h3 class="text-center">{{ mititulo }}</h3>
 
-</table>
-<hr>
+<div class="mb-4">
+    <h5>Número de Matrículas {{ numero_matriculas }}</h5>
+</div>
+
+<div class="mb-5">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th><b>Estudiante</b></th>
+            <th><b>Módulo</b></th>
+            <th><b>Comentario</b></th>
+            <th><b>Acciones</b></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in matriculas %}
+        <tr>
+            <td>
+                {{ e.estudiante.nombre }} {{ e.estudiante.apellido }}
+                <br>
+                {{ e.estudiante.get_tipo_estudiante_display }}
+            </td>
+            <td>{{ e.modulo.nombre }}</td>
+            <td>{{ e.comentario }}</td>
+            <td>
+                [<a href="{% url 'detalle_estudiante' e.estudiante.id %}">historial</a>]
+                [<a href="{% url 'detalle_matricula' e.id %}">ver</a>]
+                [<a href="{% url 'editar_matricula' e.id %}">editar</a>]
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
