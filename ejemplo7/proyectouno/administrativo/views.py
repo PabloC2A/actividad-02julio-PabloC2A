@@ -37,9 +37,12 @@ def crear_matricula(request):
             return redirect(index)
     else:
         formulario = MatriculaForm()
-    diccionario = {'formulario': formulario}
+    contexto = {
+        'formulario': formulario,
+        'mititulo': 'Crear Estudiante'
+    }
 
-    return render(request, 'crear_matricula.html', diccionario)
+    return render(request, 'crear_matricula.html', contexto)
 
 
 def editar_matricula(request, id):
